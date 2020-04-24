@@ -1,0 +1,19 @@
+Package: ToolsPackage
+Title: Tools for the daily work with R
+Version: 0.1.0.0
+Authors@R: 
+    person(given = "Kurt",
+           family = "Krömer",
+           role = c("aut", "cre"),
+           email = "kurt.kroemer@bfh.com",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: This package helps with converting types of columns in data.frames, concatenating factors, and estimating jacknife estimates for the gamma distribution.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.0
+Imports: dplyr, MASS
+NeedsCompilation: no
+Packaged: 2020-04-24 13:01:31 UTC; sym3
+Author: Kurt Krömer [aut, cre] (<https://orcid.org/YOUR-ORCID-ID>)
+Maintainer: Kurt Krömer <kurt.kroemer@bfh.com>
