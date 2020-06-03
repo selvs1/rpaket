@@ -13,7 +13,7 @@
 #  https://rpubs.com/msundar/large_data_analysis
 
 
-# Kaggle Dataset ist 9 GB gross!!
+# Kaggle Dataset ist 9 GB gross!! fuck
 
 ###################################################################################
 
@@ -146,10 +146,28 @@ anime.ffdf
 
 
 ######### Use ########
-
+getwd()
+setwd("BigData")
 ############################ Ab hier Data Science #########################################
 aData <- anime.ffdf
 bData <- read.table(sourcePath, header = T, sep=",", nrows = 5000)
+
+animeList <- read.csv("AnimeList.csv")
+
+animeList$genre
+
+animeList$genre[1]
+
+x <- strsplit(animeList$genre[1],split = ",")
+
+trimws(x)
+
+x <- unlist(lapply(x, trimws))
+
+str(x)
+
+x <- c(1,2,1,1,1,1,2,9,19)
+factor(x)
 
 ## Wie sieht der Data aus?
 View(aData)
