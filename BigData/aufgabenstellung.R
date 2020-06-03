@@ -43,8 +43,6 @@ getOption("fftempdir")
 
 
 
-
-
 #### DO NOT USE ###
 ################################################################################### skippable
 # creating the file
@@ -149,10 +147,38 @@ anime.ffdf
 getwd()
 setwd("BigData")
 ############################ Ab hier Data Science #########################################
-aData <- anime.ffdf
-bData <- read.table(sourcePath, header = T, sep=",", nrows = 5000)
+#aData <- anime.ffdf
 
-animeList <- read.csv("AnimeList.csv")
+animeUserList <- read.table(sourcePath, header = T, sep=",", nrows = 5000)
+
+
+## Dataframe? sieht hässlich aus
+str(animeUserList)
+
+# Dimension
+dim(animeUserList)
+
+## Schauen wir uns einmal die Daten in einem kleinen Umfang an
+View(animeUserList)
+
+# Spalten
+names(animeUserList)
+
+
+
+#Anime Liste laden
+csvAnimeList <- "AnimeList.csv"
+animeList <- read.csv(file = csvAnimeList, header = T, sep = ",")
+
+
+View(animeList)
+
+names(animeList)
+
+
+# AnimeList interessante Attribute sind
+# anime_id, title, type, rank, popularity, episodes, genre, producer --> wer bringt die besten Anime raus?, source --> mangaleser?, 
+
 
 animeList$genre
 
@@ -169,37 +195,37 @@ str(x)
 x <- c(1,2,1,1,1,1,2,9,19)
 factor(x)
 
-## Wie sieht der Data aus?
-View(aData)
-View(bData)
 
-## Dataframe? sieht hässlich aus
-str(aData)
-str(bData)
+# Userlist laden
+csvUserList <- "UserList.csv"
+userList <- read.csv(file = csvUserList, header = T, sep = ",")
 
-# Dimension
-dim(aData)
-dim(bData)
+str(userList)
+dim(userList)
+View(userList)
 
-# Spalten
-names(aData)
+library(lubridate)
 
 
-## Schauen wir uns einmal die Daten in einem kleinen Umfang an
 
-View(bData)
-csvAnimeList <- "D:/Users/sugeelan/RProject_Anime/myanimelist/AnimeList.csv"
 
-#Anime Liste laden
-animeList <- read.csv(file = csvAnimeList, header = T, sep = ",")
+### Fragen
 
-View(animeList)
-
-dim(animeList)
-names(animeList)
 
 # AnimeList interessante Attribute sind
 # anime_id, title, type, rank, popularity, episodes, genre, producer --> wer bringt die besten Anime raus?, source --> mangaleser?, 
+
+
+# Wer (Mann/Frau) schaut am meisten Anime an? -> Piechart
+
+
+# Average Rating Typen -> Music, Film, TV -> Balkendiagramm --> Stefanie
+
+# Wie lange braucht der Konsument um Anime ID 3244.. fertig anzuschauen -> my_start_date - my_finish_date -> ??
+
+
+# Anime XYZ wird von welcher Alterklasse geguckt --> Sugi
+
 
 
 

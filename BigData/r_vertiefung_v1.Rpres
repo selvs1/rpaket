@@ -1,0 +1,58 @@
+Big Data in R
+========================================================
+author: Stefanie Neuenschwander, Sugeelan Selvasingham
+date: 05.06.2020
+autosize: true
+
+Inhalt
+========================================================
+
+- Was ist Big Data?
+- Big Data in R
+- ff Paket
+- Anime Daten
+- Vorgehen
+- Code
+
+Was ist Big Data?
+========================================================
+"Big data” is high-volume, -velocity and -variety information assets that demand cost-effective, innovative forms of information processing for enhanced insight and decision making.
+
+Big Data in R
+========================================================
+- Data > RAM
+
+ff Paket
+========================================================
+- hilft beim Überwinden des RAM-Problems
+- 
+
+Anime Daten
+========================================================
+- Daten über Zuschauer von Anime
+- 9GB gross
+```{r}
+summary(mtcars)
+
+```
+
+
+Slide With Code
+========================================================
+
+```{r}
+summary(cars)
+```
+
+Slide With Plot
+========================================================
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+Slide With Image
+========================================================
+```{r, echo=FALSE}
+   knitr::include_graphics('poster-big-data-konzept-in-wort-wolke.png')
+```
