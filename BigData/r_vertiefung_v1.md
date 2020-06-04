@@ -16,11 +16,12 @@ Inhalt
 
 Was ist Big Data?
 ========================================================
-"Big data” is high-volume, -velocity and -variety information assets that demand cost-effective, innovative forms of information processing for enhanced insight and decision making.
+"Big data" is high-volume, -velocity and -variety information assets that demand cost-effective, innovative forms of information processing for enhanced insight and decision making.
 
 Big Data in R
 ========================================================
 - Data > RAM
+- Daumenregel: 2-3 x Datsetgrösse
 
 ff Paket
 ========================================================
@@ -90,7 +91,7 @@ Slide With Image
 
 ```
 processing file: r_vertiefung_v1.Rpres
-Quitting from lines 57-58 (r_vertiefung_v1.Rpres) 
+Quitting from lines 58-59 (r_vertiefung_v1.Rpres) 
 Fehler in knitr::include_graphics("poster-big-data-konzept-in-wort-wolke.png") : 
   Cannot find the file(s): "poster-big-data-konzept-in-wort-wolke.png"
 Ruft auf: knit ... withCallingHandlers -> withVisible -> eval -> eval -> <Anonymous>

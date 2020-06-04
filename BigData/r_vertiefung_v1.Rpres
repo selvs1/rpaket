@@ -16,11 +16,12 @@ Inhalt
 
 Was ist Big Data?
 ========================================================
-"Big data” is high-volume, -velocity and -variety information assets that demand cost-effective, innovative forms of information processing for enhanced insight and decision making.
+"Big data" is high-volume, -velocity and -variety information assets that demand cost-effective, innovative forms of information processing for enhanced insight and decision making.
 
 Big Data in R
 ========================================================
 - Data > RAM
+- Daumenregel: 2-3 x Datsetgrösse
 
 ff Paket
 ========================================================
