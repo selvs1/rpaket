@@ -21,16 +21,40 @@ Was ist Big Data?
 Big Data in R
 ========================================================
 - Data > RAM
-- Daumenregel: 2-3 x Datsetgrˆsse
+- Dataset > 2 GB wird schwierig
+- int64 Datentyp gibt es nicht
+  - (2^31 -1) --> max. 2'147'483'647 Indexierung m√∂glich
+- Daumenregel: 2-3x Datasetgr√∂sse
+
+Big Data in R
+========================================================
+- Probleme
+  - RAM/OS Limitierung
+  - Lange Bearbeitungszeit
+- L√∂sung
+  - Mehr RAM / Teile & herrschen
+  - Parallelit√§t
+  
+Big Data in R
+========================================================
+- (<2 GB)
+  - Lade bestimmte Spalten/Zeilen
+
+- (2-10 GB)
+  - bigmemory
+  - ff
+
+
 
 ff Paket
 ========================================================
-- hilft beim ‹berwinden des RAM-Problems
-- 
+- hilft beim √úberwinden des RAM-Problems
+
+
 
 Anime Daten
 ========================================================
-- Daten ¸ber Zuschauer von Anime
+- Daten √ºber Zuschauer von Anime
 - 9GB gross
 
 ```r
@@ -89,11 +113,7 @@ Slide With Image
 ========================================================
 
 
-```
-processing file: r_vertiefung_v1.Rpres
-Quitting from lines 58-59 (r_vertiefung_v1.Rpres) 
-Fehler in knitr::include_graphics("poster-big-data-konzept-in-wort-wolke.png") : 
-  Cannot find the file(s): "poster-big-data-konzept-in-wort-wolke.png"
-Ruft auf: knit ... withCallingHandlers -> withVisible -> eval -> eval -> <Anonymous>
-Ausf¸hrung angehalten
-```
+sdfasdf
+========================================================
+asdfafasdfasdf
+asdfa
