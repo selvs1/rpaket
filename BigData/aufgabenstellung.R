@@ -22,11 +22,20 @@ memory.limit()
 #install.packages("ffbase")
 library(ff)
 library(ffbase)
+
 library(lubridate)
 library(datasets)
 library(ggplot2)
 library(plotrix)
 library(dplyr)
+
+# install.packages("devtools")
+#devtools::install_github("edwindj/ffbase2")
+library(ffbase2)
+
+
+
+
 
 ## ff Vorbereiten
 sourcePath <- "D:/Users/sugeelan/RProject_Anime/myanimelist/UserAnimeList.csv"
@@ -105,6 +114,11 @@ rm("anime.ffdf")
 tf <- "D:/Users/sugeelan/RProject_Anime/Out1.zip"
 unpack.ffdf(tf)
 
+tf <- "D:/Users/sugeelan/RProject_Anime/OutAnimeList.zip"
+unpack.ffdf(tf)
+
+tf <- "D:/Users/sugeelan/RProject_Anime/OutUserList.zip"
+unpack.ffdf(tf)
 
 
 ################## JUHU Daten vollständig geladen in nur 2 Minuten #######################
@@ -173,7 +187,9 @@ names(animeUserList)
 
 #Anime Liste laden
 csvAnimeList <- "AnimeList.csv"
-animeList <- read.csv(file = csvAnimeList, header = T, sep = ",")
+#animeList <- read.csv(file = csvAnimeList, header = T, sep = ",")
+animeList <- animeList.ffdf
+
 
 
 View(animeList)
@@ -183,7 +199,9 @@ names(animeList)
 
 # Userlist laden
 csvUserList <- "UserList.csv"
-userList <- read.csv(file = csvUserList, header = T, sep = ",")
+#userList <- read.csv(file = csvUserList, header = T, sep = ",")
+userList <- userList.ffdf
+
 
 str(userList)
 dim(userList)
@@ -203,21 +221,21 @@ View(userList)
 db <- animeUserList
 
 anime <- animeList
-as.ffdf(x = anime, vmode = NULL)
-
 
 user <- userList
-as.ffdf.data.frame(user)
+
 
 View(db)
 View(anime)
 View(user)
 
-merge.ffdf()
+
 
 
 #db <- merge(db, user[c("username", "user_id", "birth_date", "gender")], by = "username")
 db <- merge.ffdf(db, user[c("username", "user_id", "birth_date", "gender")], by = "username")
+
+
 
 # Dragon Ball Z 
 tmp_anime_id <- 813
@@ -229,9 +247,11 @@ db[db$anime_id == tmp_anime_id,]
 #t <- ymd(c("1991-08-01", "2020-06-05"))
 #t <- unique(db$birth_date)
 
+
 # Alter [year] angeben
 db$birth_date_age <- as.period(interval(start = db$birth_date, end = "2020-06-05"), unit = "days")@day/365
 
+db$birth_date <- as.Date.ff_vector(db$birth_date)
 
 
 
@@ -347,6 +367,10 @@ db <- animeUserList # unser big data
 anime <- animeList
 user <- userList
 
+db <- anime.ffdf
+anime <- animeList.ffdf
+user <- userList.ffdf
+
 
 
 mergedAnime <- merge(db, anime)
@@ -368,7 +392,7 @@ cleanedAnime <- mergedAnime %>%
 
 
 # schauen welche Anime Typen es gibt
-unique(cleanedAnime$type)
+#unique(cleanedAnime$type)
 
 
 
@@ -415,6 +439,12 @@ user$user_days_spent_watching
 genderData <- user %>%
   select(gender, user_days_spent_watching)
 
+genderData <- user %>%
+  select(gender, user_days_spent_watching)
+
+
+
+str.ff(unique(db$username))
 
 
 # nach Frauen und Männern auftrennen
