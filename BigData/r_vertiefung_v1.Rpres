@@ -64,13 +64,51 @@ summary(mtcars)
 
 Slide With Code
 ========================================================
+- 5000 Zeilen laden
 
-```{r}
-summary(cars)
+```{r }
+#install.packages("ff")
+#install.packages("ffbase")
+library(ff)
+library(ffbase)
+library(lubridate)
+library(datasets)
+library(ggplot2)
+library(plotrix)
+library(dplyr)
+
+
+## ff Vorbereiten
+sourcePath <- "D:/Users/sugeelan/RProject_Anime/myanimelist/UserAnimeList.csv"
+#tempPath <- "D:/Users/sugeelan/RProject_Anime/TEMP"
+
+outZIP <- "D:/Users/sugeelan/RProject_Anime/Out1"
+#tempPath <- tempfile()
+
+## Check Temp path
+getOption("fftempdir")
+
+## set Temp path
+#options("fftempdir" = tempPath)
+
+## Check Temp path again
+getOption("fftempdir")
+
+animeUserList <- read.table(sourcePath, header = T, sep=",", nrows = 5000)
 ```
 
 Slide With Plot
 ========================================================
+
+```{r echo=FALSE}
+# 5000 Zeilen
+animeUserList <- read.table(sourcePath, header = T, sep=",", nrows = 5000)
+str(animeUserList)
+
+
+
+```
+
 
 ```{r, echo=FALSE}
 plot(cars)
@@ -78,8 +116,14 @@ plot(cars)
 
 Slide With Image
 ========================================================
+
 ```{r, echo=FALSE}
-   #knitr::include_graphics('poster-big-data-konzept-in-wort-wolke.png')
+
+# Dimension
+dim(animeUserList)
+
+# Spalten
+names(animeUserList)
 ```
 
 sdfasdf

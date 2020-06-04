@@ -88,30 +88,88 @@ summary(mtcars)
 
 Slide With Code
 ========================================================
+- 5000 Zeilen laden
 
 
 ```r
-summary(cars)
+#install.packages("ff")
+#install.packages("ffbase")
+library(ff)
+library(ffbase)
+library(lubridate)
+library(datasets)
+library(ggplot2)
+library(plotrix)
+library(dplyr)
+
+
+## ff Vorbereiten
+sourcePath <- "D:/Users/sugeelan/RProject_Anime/myanimelist/UserAnimeList.csv"
+#tempPath <- "D:/Users/sugeelan/RProject_Anime/TEMP"
+
+outZIP <- "D:/Users/sugeelan/RProject_Anime/Out1"
+#tempPath <- tempfile()
+
+## Check Temp path
+getOption("fftempdir")
 ```
 
 ```
-     speed           dist       
- Min.   : 4.0   Min.   :  2.00  
- 1st Qu.:12.0   1st Qu.: 26.00  
- Median :15.0   Median : 36.00  
- Mean   :15.4   Mean   : 42.98  
- 3rd Qu.:19.0   3rd Qu.: 56.00  
- Max.   :25.0   Max.   :120.00  
+[1] "C:/Users/sugeelan/AppData/Local/Temp/Rtmp6p952F"
+```
+
+```r
+## set Temp path
+#options("fftempdir" = tempPath)
+
+## Check Temp path again
+getOption("fftempdir")
+```
+
+```
+[1] "C:/Users/sugeelan/AppData/Local/Temp/Rtmp6p952F"
+```
+
+```r
+animeUserList <- read.table(sourcePath, header = T, sep=",", nrows = 5000)
 ```
 
 Slide With Plot
 ========================================================
 
-![plot of chunk unnamed-chunk-3](r_vertiefung_v1-figure/unnamed-chunk-3-1.png)
+
+```
+'data.frame':	5000 obs. of  11 variables:
+ $ username           : chr  "karthiga" "karthiga" "karthiga" "karthiga" ...
+ $ anime_id           : int  21 59 74 120 178 210 232 233 249 269 ...
+ $ my_watched_episodes: int  586 26 26 26 26 161 70 78 167 366 ...
+ $ my_start_date      : chr  "0000-00-00" "0000-00-00" "0000-00-00" "0000-00-00" ...
+ $ my_finish_date     : chr  "0000-00-00" "0000-00-00" "0000-00-00" "0000-00-00" ...
+ $ my_score           : int  9 7 7 7 7 7 6 6 8 10 ...
+ $ my_status          : int  1 2 2 2 2 2 2 2 2 2 ...
+ $ my_rewatching      : int  NA NA NA NA 0 NA NA NA NA NA ...
+ $ my_rewatching_ep   : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ my_last_updated    : int  1362307973 1362923691 1367081015 1362308037 1364399953 1362923826 1362849882 1362893384 1363709086 1362303563 ...
+ $ my_tags            : chr  "" "" "" "" ...
+```
+
+
+![plot of chunk unnamed-chunk-4](r_vertiefung_v1-figure/unnamed-chunk-4-1.png)
 
 Slide With Image
 ========================================================
 
+
+```
+[1] 5000   11
+```
+
+```
+ [1] "username"            "anime_id"            "my_watched_episodes"
+ [4] "my_start_date"       "my_finish_date"      "my_score"           
+ [7] "my_status"           "my_rewatching"       "my_rewatching_ep"   
+[10] "my_last_updated"     "my_tags"            
+```
 
 sdfasdf
 ========================================================

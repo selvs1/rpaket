@@ -16,7 +16,7 @@
 # Kaggle Dataset ist 9 GB gross!! fuck
 
 ###################################################################################
-
+memory.limit()
 
 #install.packages("ff")
 #install.packages("ffbase")
@@ -25,6 +25,8 @@ library(ffbase)
 library(lubridate)
 library(datasets)
 library(ggplot2)
+library(plotrix)
+library(dplyr)
 
 ## ff Vorbereiten
 sourcePath <- "D:/Users/sugeelan/RProject_Anime/myanimelist/UserAnimeList.csv"
@@ -150,10 +152,10 @@ anime.ffdf
 getwd()
 setwd("BigData")
 ############################ Ab hier Data Science #########################################
-#aData <- anime.ffdf
 
-animeUserList <- read.table(sourcePath, header = T, sep=",", nrows = 5000)
 
+#animeUserList <- read.table(sourcePath, header = T, sep=",", nrows = 5000)
+animeUserList <- anime.ffdf
 
 ## Dataframe? sieht hässlich aus
 str(animeUserList)
@@ -199,15 +201,23 @@ View(userList)
 # Anime XYZ wird von welcher Alterklasse geguckt --> Sugi
 
 db <- animeUserList
+
 anime <- animeList
+as.ffdf(x = anime, vmode = NULL)
+
+
 user <- userList
+as.ffdf.data.frame(user)
+
 View(db)
 View(anime)
 View(user)
 
+merge.ffdf()
 
 
-db <- merge(db, user[c("username", "user_id", "birth_date", "gender")], by = "username")
+#db <- merge(db, user[c("username", "user_id", "birth_date", "gender")], by = "username")
+db <- merge.ffdf(db, user[c("username", "user_id", "birth_date", "gender")], by = "username")
 
 # Dragon Ball Z 
 tmp_anime_id <- 813
@@ -332,3 +342,101 @@ str(x)
 x <- c(1,2,1,1,1,1,2,9,19)
 factor(x)
 ##############################
+
+db <- animeUserList # unser big data
+anime <- animeList
+user <- userList
+
+
+
+mergedAnime <- merge(db, anime)
+
+
+
+# drop useless rows
+
+
+cleanedAnime <- mergedAnime %>%
+  select(-my_tags, -image_url, -title_japanese, -title_synonyms, -background, -broadcast, -related, -opening_theme, -ending_theme)
+
+
+
+
+##############################################
+########## mean Score per Anime Type #########
+##############################################
+
+
+# schauen welche Anime Typen es gibt
+unique(cleanedAnime$type)
+
+
+
+# Scores vorbereiten für Movie, Music, ONA, OVA, Special, TV, Unknown
+scoreMovie <- subset(cleanedAnime$score, cleanedAnime$type == "Movie")
+scoreMusic <- subset(cleanedAnime$score, cleanedAnime$type == "Music")
+scoreONA <- subset(cleanedAnime$score, cleanedAnime$type == "ONA")
+scoreOVA <- subset(cleanedAnime$score, cleanedAnime$type == "OVA")
+scoreSpecial <- subset(cleanedAnime$score, cleanedAnime$type == "Special")
+scoreTV <- subset(cleanedAnime$score, cleanedAnime$type == "TV")
+scoreUnknown <- subset(cleanedAnime$score, cleanedAnime$type == "Unknown")
+
+
+# Averages berechnen
+avgScore <- c(mean(scoreMovie), mean(scoreMusic), mean(scoreONA), mean(scoreOVA), mean(scoreSpecial), mean(scoreTV), mean(scoreUnknown))
+
+
+
+# data frame aus average scores und types erstellen
+df <- data.frame(avgScore, types = c("Movie","Music","ONA","OVA","Special","TV", "Unknown"))
+
+
+
+# plot erstellen
+ggplot(df, aes(x = types, y = avgScore)) +
+  geom_bar(stat = "identity", fill = "blue")
+
+
+
+
+#########################
+##### Gender Analyse ####
+#########################
+
+
+
+# Daten anschauen
+unique(user$gender)
+user$user_days_spent_watching           
+
+
+
+# Dataframe mit Gender und user_days_spent_watching
+genderData <- user %>%
+  select(gender, user_days_spent_watching)
+
+
+
+# nach Frauen und Männern auftrennen
+female <- filter(genderData, genderData$gender == "Female")
+male <- filter(genderData, genderData$gender == "Male")
+
+
+
+# Average
+avgDaysSpentWatching <- c(mean(female$user_days_spent_watching), mean(male$user_days_spent_watching))
+
+
+
+# data frame erstellen
+dfGender <- data.frame(avgDaysSpentWatching, gender = c("Female", "Male"))
+
+
+
+# Plot erstellen
+pie(avgDaysSpentWatching, labels = dfGender$gender, main = "Schauen Männer oder Frauen mehr Anime?")
+
+
+
+
+pie3D(avgDaysSpentWatching, labels = dfGender$gender, main = "Schauen Männer oder Frauen mehr Anime?")
