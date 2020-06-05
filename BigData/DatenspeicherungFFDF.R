@@ -218,13 +218,3 @@ tf <- "D:/Users/sugeelan/RProject_Anime/OutUserAnimeList.zip"
 unpack.ffdf(tf)
 
 
-################## JUHU Daten vollständig geladen in nur 2 Minuten #######################
-
-
-
-######### Use ########
-getwd()
-setwd("BigData")
-############################ Ab hier Data Science #########################################
-
-

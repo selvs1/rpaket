@@ -3,8 +3,8 @@ title: "Big Data in R"
 author: "Stefanie Neuenschwander, Sugeelan Selvasingham"
 date: "05.06.2020"
 output:
-  slidy_presentation: default
   ioslides_presentation: default
+  slidy_presentation: default
   powerpoint_presentation: default
   beamer_presentation: default
 ---
@@ -13,12 +13,7 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-## Test
-![](pics/cpu_auslastung.png)
 
-```{r}
-
-```
 
 ## Inhalt
 
@@ -159,7 +154,7 @@ tempfile()
 ## run
 - 30 % der Daten verarbeiten
 
-```{r eval=TRUE}
+```{r eval=FALSE}
 library(ff)
 library(ffbase)
 library(lubridate)
@@ -212,7 +207,7 @@ animeUserList <- as.ffdf(animeUserList[1:gradientVal,])
 
 ## Untersuchung vom Datensatz
 
-```{r eval=TRUE}
+```{r eval=FALSE}
 str(anime.ffdf)
 
 
@@ -220,23 +215,23 @@ str(anime.ffdf)
 
 ## Untersuchung vom Datensatz
 
-```{r eval=TRUE}
+```{r eval=FALSE}
 dim(anime.ffdf)
 
 ```
 
 ## Untersuchung vom Datensatz
 
-```{r eval=TRUE}
+```{r eval=FALSE}
 dim(anime.ffdf)
 
 names(animeUserList)
 
 ```
 
-## Plots
+## Plots 1
 
-```{r echo=FALSE}
+```{r eval=FALSE}
 
 #Anime Liste laden
 csvAnimeList <- "AnimeList.csv"
@@ -294,9 +289,9 @@ p11
 
 
 
-## plot 2
+## Plot 2
 
-```{r echo=FALSE}
+```{r echo=TRUE, eval=FALSE}
 
 ####
 library(RColorBrewer)
@@ -345,7 +340,7 @@ p12
 
 ## Plot 3
 
-```{r echo=FALSE}
+```{r eval=FALSE}
 
 db <- animeUserList # unser big data
 anime <- animeList
@@ -410,7 +405,7 @@ ggplot(df, aes(x = types, y = avgScore)) +
 
 ## Plot 4
 
-```{r echo=FALSE}
+```{r eval=FALSE}
 
 
 #########################
@@ -464,7 +459,7 @@ pie(avgDaysSpentWatching, labels = dfGender$gender, main = "Schauen Männer oder
 
 ## Plot 5
 
-```{r echo=FALSE}
+```{r eval=FALSE}
 
 pie3D(avgDaysSpentWatching, labels = dfGender$gender, main = "Schauen Männer oder Frauen mehr Anime?")
 ```
@@ -472,12 +467,14 @@ pie3D(avgDaysSpentWatching, labels = dfGender$gender, main = "Schauen Männer od
 
 
 ## Probleme
+![](pics/cpu_auslastung.png)
+
 - RAM / Speicher > Tempfolder wird nicht gewechselt
 - 5000 Zeilen laden
 - ffdf.data.frame
 - data.frame.ffdf
 - Rtools -> ZIP Probleme
-- Wenig Speicher auf der Festplatte
+
 
 ## Probleme
 - Kaeggle Notepad: 12 GB RAM, 4 GB Disk
@@ -485,24 +482,7 @@ pie3D(avgDaysSpentWatching, labels = dfGender$gender, main = "Schauen Männer od
 - R-Studio Cloud: 1 GB RAM, 1 CPU
 
 
-## gc()
+## Fazit
 
 
-
-
-
-
-
-
-## Slide with R Output
-
-```{r cars, echo = TRUE}
-summary(cars)
-```
-
-## Slide with Plot
-
-```{r pressure}
-plot(pressure)
-```
 

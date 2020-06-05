@@ -13,7 +13,7 @@
 #  https://rpubs.com/msundar/large_data_analysis
 
 
-# Kaggle Dataset ist 9 GB gross!! fuck
+# Kaggle Dataset ist 9 GB gross!!
 
 ###################################################################################
 memory.limit()
@@ -169,12 +169,12 @@ setwd("BigData")
 
 #animeUserList <- read.table(sourcePath, header = T, sep=",", nrows = 5000)
 animeUserList <- anime.ffdf
-gradientVal <- nrow(anime.ffdf)*0.3
+gradientVal <- nrow(anime.ffdf)*0.3 # Computer vom Bruder: Win7, 64bit, 12 GB RAM --> Maximal kann nur 30% der Daten geladen werden.
 animeUserList <- as.ffdf(animeUserList[1:gradientVal,])
 
 
 
-#♣nrow(anime.ffdf)
+# nrow(anime.ffdf)
 
 
 ## Dataframe? sieht hässlich aus
@@ -269,9 +269,6 @@ db <- as.data.frame.ffdf(db)
 
 
 # Alter [year] angeben
-
-
-
 db$birth_date_age <- as.period(interval(start = as.Date(db$birth_date), end = "2020-06-05"), unit = "days")@day/365
 
 #db$birth_date <- as.Date.ff_vector(db$birth_date)
@@ -346,9 +343,9 @@ library(RColorBrewer)
 
 #View(anime)
 
-animeID_member <- anime$anime_id[anime$members == max(anime$members)][1] #max(anime$members) 730076
-animeID_rank <- as.integer(table(anime$anime_id[anime$rank == 1]))[1]
-animeID_popularity <- anime$anime_id[anime$popularity == 10][1]
+animeID_member <- anime$anime_id[anime$members == max(anime$members)][1] # Anime mit meisten Members
+animeID_rank <- as.integer(table(anime$anime_id[anime$rank == 1]))[1] # Rang 1
+animeID_popularity <- anime$anime_id[anime$popularity == 10][1] # Popularität
 
 db <- merge(db, anime[c("anime_id", "title")], by = "anime_id")
 
