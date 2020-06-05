@@ -18,13 +18,16 @@ Was ist Big Data?
 ========================================================
 "Big data" is high-volume, -velocity and -variety information assets that demand cost-effective, innovative forms of information processing for enhanced insight and decision making.
 
+https://www.gartner.com/en/information-technology/glossary/big-data
+https://www.sas.com/de_ch/insights/big-data/what-is-big-data.html
+
 Big Data in R
 ========================================================
 - Data > RAM
 - Dataset > 2 GB wird schwierig
 - int64 Datentyp gibt es nicht
   - (2^31 -1) --> max. 2'147'483'647 Indexierung möglich
-- Daumenregel: 2-3x Datasetgrösse
+- Daumenregel: RAM 2-3x > Datasetgrösse
 
 Big Data in R
 ========================================================
@@ -39,10 +42,14 @@ Big Data in R
 ========================================================
 - (<2 GB)
   - Lade bestimmte Spalten/Zeilen
-
 - (2-10 GB)
-  - bigmemory
-  - ff
+  - bigmemory, ff
+- (10> GB)
+  - hadoop, Spark, ..
+  - https://rstudio.com/resources/webinars/working-with-big-data-in-r/
+  
+
+
 
 
 
@@ -51,82 +58,40 @@ ff Paket
 - hilft beim Überwinden des RAM-Problems
 
 
+-	http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.487.1317&rep=rep1&type=pdf
 
 Anime Daten
 ========================================================
 - Daten über Zuschauer von Anime
 - 9GB gross
-```{r}
-summary(mtcars)
 
-```
+
+Vorgehen
+========================================================
+1. ff Package testen
+2. Problemgrösse verkleinern (5000 Zeiliger Sample)
+3. Statistische Modelle vorbereiten
+4. Modelle auf Bigdata Datensatz anwenden
+
 
 
 Slide With Code
 ========================================================
 - 5000 Zeilen laden
 
-```{r }
-#install.packages("ff")
-#install.packages("ffbase")
-library(ff)
-library(ffbase)
-library(lubridate)
-library(datasets)
-library(ggplot2)
-library(plotrix)
-library(dplyr)
 
 
-## ff Vorbereiten
-sourcePath <- "D:/Users/sugeelan/RProject_Anime/myanimelist/UserAnimeList.csv"
-#tempPath <- "D:/Users/sugeelan/RProject_Anime/TEMP"
-
-outZIP <- "D:/Users/sugeelan/RProject_Anime/Out1"
-#tempPath <- tempfile()
-
-## Check Temp path
-getOption("fftempdir")
-
-## set Temp path
-#options("fftempdir" = tempPath)
-
-## Check Temp path again
-getOption("fftempdir")
-
-animeUserList <- read.table(sourcePath, header = T, sep=",", nrows = 5000)
-```
-
-Slide With Plot
+Probleme
 ========================================================
+- 5000 Zeilen laden
+- ffdf.data.frame
+- data.frame.ffdf
+- Rtools -> ZIP Probleme
+- Wenig Speicher auf der Festplatte
 
-```{r echo=FALSE}
-# 5000 Zeilen
-animeUserList <- read.table(sourcePath, header = T, sep=",", nrows = 5000)
-str(animeUserList)
-
-
-
-```
-
-
-```{r, echo=FALSE}
-plot(cars)
-```
-
-Slide With Image
+Probleme
 ========================================================
+- Kaeggle Notepad: 12 GB RAM, 4 GB Disk
+- Colab Notepad: 12 GB RAM, 120 GB Disk
+- R-Studio Cloud: 1 GB RAM, 1 CPU
 
-```{r, echo=FALSE}
-
-# Dimension
-dim(animeUserList)
-
-# Spalten
-names(animeUserList)
-```
-
-sdfasdf
-========================================================
-asdfafasdfasdf
-asdfa

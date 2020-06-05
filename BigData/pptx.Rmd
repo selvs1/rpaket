@@ -1,25 +1,165 @@
-#Aufgabenstellung: 
+---
+title: "Big Data in R"
+author: "Stefanie Neuenschwander, Sugeelan Selvasingham"
+date: "05.06.2020"
+output:
+  slidy_presentation: default
+  ioslides_presentation: default
+  powerpoint_presentation: default
+  beamer_presentation: default
+---
 
-#Möglichkeiten in R mit großen Datenmengen umzugehen zeigen und dabei klären, 
-# was Big Data ist
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
 
-#Für folgende Daten https://www.kaggle.com/azathoth42/myanimelist#UserAnimeList.csv 
-# zeigen Sie, 
-# wie man diese auswertbar macht mit R-Big Data Funktionen. 
-# Machen Sie dazu beschreibende Statistiken
+## Test
+![](pics/cpu_auslastung.png)
 
-#Links: 
-#  https://rstudio.com/resources/webinars/working-with-big-data-in-r/
-#  https://rpubs.com/msundar/large_data_analysis
+```{r}
+
+```
+
+## Inhalt
+
+- Was ist Big Data?
+- Big Data in R
+- ff Paket
+- Anime Daten
+- Vorgehen
+- Code
+
+## Was ist Big Data?
+
+"Big data" is high-volume, -velocity and -variety information assets that demand cost-effective, innovative forms of information processing for enhanced insight and decision making.
+
+https://www.gartner.com/en/information-technology/glossary/big-data
+https://www.sas.com/de_ch/insights/big-data/what-is-big-data.html
 
 
-# Kaggle Dataset ist 9 GB gross!! fuck
 
-###################################################################################
+## Big Data in R
+- Data > RAM
+- Dataset > 2 GB wird schwierig
+- int64 Datentyp gibt es nicht
+  - (2^31 -1) --> max. 2'147'483'647 Indexierung möglich
+- Daumenregel: RAM 2-3x > Datasetgrösse
+
+
+## Big Data in R
+- Probleme
+  - RAM/OS Limitierung
+  - Lange Bearbeitungszeit
+- Lösung
+  - Mehr RAM / Teilen & herrschen
+  - Parallelität
+  
+## Big Data in R
+- (<2 GB)
+  - Lade bestimmte Spalten/Zeilen
+- (2-10 GB)
+  - bigmemory, ff
+- (10 GB >)
+  - hadoop, Spark, ..
+  - https://rstudio.com/resources/webinars/working-with-big-data-in-r/
+  
+## Big Data in R > 10GB mit dplyr
+![](pics/generalStrategy.png)
+  
+1. Connects: Verbindung zur Datenbank (z.B RJDBC)
+2. Transform: R in SQL
+3. Run: SQL ins DBMS (Datawarehouse) schicken und ausführen
+4. Collect: Ergebnis in R (lazy execution)
+
+
+
+## ff Paket
+- hilft beim Überwinden des RAM-Problems
+- Universität Göttingen
+- Daten werden aufgeteilt
+
+
+http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.487.1317&rep=rep1&type=pdf
+  
+  
+
+## Anime Daten
+- Daten über Zuschauer von Anime
+- 9GB gross
+
+
+
+## Vorgehen
+1. ff Package testen
+2. Problemgrösse verkleinern (5000 zeiliger Sample)
+3. Statistische Modelle vorbereiten
+4. Modelle auf Bigdata Datensatz anwenden
+
+
+## ff Vorbereitung
+```{r echo=TRUE}
+# RAM grösse
 memory.limit()
 
-#install.packages("ff")
-#install.packages("ffbase")
+## ff Vorbereiten
+sourcePath <- "D:/Users/sugeelan/RProject_Anime/myanimelist/UserAnimeList.csv"
+tempPath <- "D:/Users/sugeelan/RProject_Anime/TEMP"
+outZIP <- "D:/Users/sugeelan/RProject_Anime/Out1"
+
+## Check Temp path
+getOption("fftempdir")
+tempfile()
+
+## set Temp path
+#options("fftempdir" = tempPath)
+
+```
+
+
+
+## ff Daten speichern
+
+```{r echo=TRUE}
+############################################ SAVE DATA in Tempfolder
+# anime.ffdf <- read.csv.ffdf(file=sourcePath)
+
+# outPath <- outZIP # D:/Users/sugeelan/RProject_Anime/Out1
+# td <- outPath
+# tmpFile <- outPath
+
+##### save the ffdf into the supplied directory
+# save.ffdf(anime.ffdf, dir=td) # Ausgabeordner (targetdirectory) ohne .zip
+
+##### remove the ffdf from memory
+# rm("anime.ffdf")
+
+##### and reload the stored ffdf
+# load.ffdf(dir=td)
+
+# tf <- paste(tmpFile, ".zip", sep="")
+# packed <- pack.ffdf(file=tf, anime.ffdf) # 30 Min. in Zip verpacken
+
+##### remove the ffdf from memory
+# rm("anime.ffdf")
+
+```
+
+## ff Daten laden
+
+```{r echo=TRUE}
+######################################## Load Data from Zip file
+# restore the ffdf from the packed ffdf
+# unter TF ish "D:/Users/sugeelan/RProject_Anime/Out1.zip"
+# tf <- "D:/Users/sugeelan/RProject_Anime/Out1.zip"
+# unpack.ffdf(tf)
+
+```
+![](pics/ffdfLaden.png)
+
+## run
+- 30 % der Daten verarbeiten
+
+```{r eval=TRUE}
 library(ff)
 library(ffbase)
 library(lubridate)
@@ -31,10 +171,6 @@ library(dplyr)
 #install.packages("devtools")
 #devtools::install_github("edwindj/ffbase2")
 library(ffbase2)
-
-
-
-
 
 ## ff Vorbereiten
 sourcePath <- "D:/Users/sugeelan/RProject_Anime/myanimelist/UserAnimeList.csv"
@@ -54,60 +190,6 @@ getOption("fftempdir")
 
 
 
-
-
-#### DO NOT USE ###
-################################################################################### skippable
-# creating the file
-anime.ffdf <- read.csv.ffdf(file=sourcePath) # Achtung dauert 8 Minuten
-#anime.ffdf <- as.ffdf(iris)
-# creates a ffdf object
-class(anime.ffdf)
-# ffdf is a virtual dataframe
-str(anime.ffdf)
-# ffdf object can be treated as any other R object
-sum(anime.ffdf[,3])
-head(anime.ffdf)
-View(anime.ffdf)
-anime.ffdf["username"]
-factor(anime.ffdf$username)
-# Wieviele Benutzer gibt es?
-length(unique(anime.ffdf$username))
-
-
-#### USE ###
-############################################ SAVE DATA in Tempfolder
-anime.ffdf <- read.csv.ffdf(file=sourcePath)
-#anime.ffdf
-#outZIP
-outPath <- outZIP
-
-#td <- tempfile()
-td <- outPath
-tmpFile <- outPath
-
-# save the ffdf into the supplied directory
-save.ffdf(anime.ffdf, dir=td)
-
-# what in the directory?
-dir(td)
-
-#remove the ffdf from memory
-rm("anime.ffdf")
-
-# and reload the stored ffdf
-load.ffdf(dir=td)
-
-#tf <- paste(tempfile(), ".zip", sep="")
-tf <- paste(tmpFile, ".zip", sep="")
-packed <- pack.ffdf(file=tf, anime.ffdf) # 30 Min.
-
-#remove the ffdf from memory
-rm("anime.ffdf")
-
-
-
-###################################################### Load Data from Zip file
 # restore the ffdf from the packed ffdf
 # unter TF ish "D:/Users/sugeelan/RProject_Anime/Out1.zip"
 tf <- "D:/Users/sugeelan/RProject_Anime/Out1.zip"
@@ -120,76 +202,41 @@ tf <- "D:/Users/sugeelan/RProject_Anime/OutUserList.zip"
 unpack.ffdf(tf)
 
 
-################## JUHU Daten vollständig geladen in nur 2 Minuten #######################
-
-
-
-
-
-#### DO NOT USE ###
-################################################################# skippable- Save
-getOption("fftempdir")
-dir(tempPath)
-# save the ffdf into the supplied directory
-save.ffdf(anime.ffdf, dir = tempPath)
-#finalize.ffdf()
-# what in the directory?
-dir(tempPath)
-# remove ffdf from memory
-rm(anime.ffdf)
-
-#### DO NOT USE ###
-#################################################################### skippable- Load
-
-# and reload the stored ffdf
-load.ffdf(dir = tempPath)
-outPath <- "D:/Users/sugeelan/RProject_Anime/Out1"
-tf <- paste(outPath, ".zip", sep = "")
-close(anime.ffdf)
-is.open(anime.ffdf)
-packed <- pack.ffdf(file = tf, anime.ffdf)
-
-#remove the ffdf from memory
-rm("anime.ffdf")
-# restore the ffdf from the packed ffdf
-unpack.ffdf(tf)
-anime.ffdf
-###################################################################################
-
-
-
-
-
-
-######### Use ########
-getwd()
-setwd("BigData")
-############################ Ab hier Data Science #########################################
-
-
 #animeUserList <- read.table(sourcePath, header = T, sep=",", nrows = 5000)
 animeUserList <- anime.ffdf
 gradientVal <- nrow(anime.ffdf)*0.3
 animeUserList <- as.ffdf(animeUserList[1:gradientVal,])
 
 
+```
 
-#♣nrow(anime.ffdf)
+## Untersuchung vom Datensatz
+
+```{r eval=TRUE}
+str(anime.ffdf)
 
 
-## Dataframe? sieht hässlich aus
-str(animeUserList)
+```
 
-# Dimension
-dim(animeUserList)
+## Untersuchung vom Datensatz
 
-## Schauen wir uns einmal die Daten in einem kleinen Umfang an
-#View(animeUserList)
+```{r eval=TRUE}
+dim(anime.ffdf)
 
-# Spalten
+```
+
+## Untersuchung vom Datensatz
+
+```{r eval=TRUE}
+dim(anime.ffdf)
+
 names(animeUserList)
 
+```
 
+## Plots
+
+```{r echo=FALSE}
 
 #Anime Liste laden
 csvAnimeList <- "AnimeList.csv"
@@ -198,24 +245,10 @@ animeList <- animeList.ffdf
 
 
 
-#View(animeList)
-
-names(animeList)
-
-
 # Userlist laden
 csvUserList <- "UserList.csv"
 #userList <- read.csv(file = csvUserList, header = T, sep = ",")
 userList <- userList.ffdf
-
-
-str(userList)
-dim(userList)
-#View(userList)
-
-
-
-
 
 
 
@@ -239,17 +272,6 @@ user <- userList
 
 
 
-#View(db)
-#View(anime)
-#View(user)
-
-#rm(list = c("db", "anime", "user", "p11", "p12", "genderData", "female", "male", "mergedAnime", "serie_trimmed", "cleanedAnime", "dfGender",
-#            "df", "animeUserList", "userList", "animeList"))
-
-
-#db <- merge(db, user[c("username", "user_id", "birth_date", "gender")], by = "username")
-
-#anime.ffdf <- merge.ffdf(anime.ffdf, userList.ffdf[c("username", "user_id", "birth_date", "gender")], by = "username")
 
 db <- merge.ffdf(db, user[c("username", "user_id", "birth_date", "gender")], by = "username")
 
@@ -257,80 +279,8 @@ user <- as.data.frame.ffdf(user)
 anime <- as.data.frame.ffdf(anime)
 db <- as.data.frame.ffdf(db)
 
-# Dragon Ball Z 
-#tmp_anime_id <- 813
-
-
-#db[db$anime_id == tmp_anime_id,]
-
-
-#t <- ymd(c("1991-08-01", "2020-06-05"))
-#t <- unique(db$birth_date)
-
-
-# Alter [year] angeben
-
-
 
 db$birth_date_age <- as.period(interval(start = as.Date(db$birth_date), end = "2020-06-05"), unit = "days")@day/365
-
-#db$birth_date <- as.Date.ff_vector(db$birth_date)
-
-#### FFDF fix
-
-#list1 <- 1:nrow(db)
-#list2 <- rep("2020-06-05",length(list1))
-#list3 <- cbind(list2, list1)
-#list3 <- data.frame(date = list2, number = list1)
-
-#date(db$birth_date[1])
-
-#as.Date(db$birth_date[1]) 
-
-
-
-#require(doBy)
-#result2 <- ffdfdply(
-# x = db[c("username")],
-# split = "birth_date",
-# FUN = function(x){
-#   result <- as.period(interval(start = as.Date(x), end = "2020-06-05"), unit = "days")@day/365
-#   result
-# })
-#
-#
-#result2 <- ffdfdply(
-# x = db[c("username")],
-# split = "birth_date",
-# FUN = function(x){
-#   result <- as.period(interval(start = as.Date(x), end = "2020-06-05"), unit = "days")@day/365
-#   return(as.data.frame(result))
-# })
-
-
-#ffiris <- as.ffdf(iris)
-
-#youraggregatorFUN <- function(x){
-# result <- as.period(interval(start = as.Date(x), end = "2020-06-05"), unit = "days")@day/365
-# return(as.data.frame(result))
-#}
-#result <- ffdfdply( x = db$birth_date, split = db$user_id,
-#                   FUN = function(x) youraggregatorFUN(x),
-#                   BATCHBYTES = 5000, trace=TRUE)
-#
-#str(as.data.frame.ffdf(db))  # 5000
-#length(db$user_id)
-
-
-names(db)
-
-
-
-
-#boxplot(db[db$anime_id == tmp_anime_id,]$birth_date_age)
-
-
-#rm(list = ls())
 
 
 
@@ -340,6 +290,13 @@ db$gender <- factor(db$gender, labels = c("Uknown", "Female", "Male", "Non-Binar
 p11 <- ggplot(db[db$anime_id == 120,], aes(x = gender, y = birth_date_age)) + geom_boxplot()
 p11
 
+```
+
+
+
+## plot 2
+
+```{r echo=FALSE}
 
 ####
 library(RColorBrewer)
@@ -384,45 +341,11 @@ p12 <- ggplot(serie_trimmed, aes(x = title, y = birth_date_age, fill = gender.f)
   scale_fill_brewer(palette = "Accent")
 p12
 
+```
 
-#########################################
+## Plot 3
 
-
-### Fragen
-
-
-# AnimeList interessante Attribute sind
-# anime_id, title, type, rank, popularity, episodes, genre, producer --> wer bringt die besten Anime raus?, source --> mangaleser?, 
-
-
-# Wer (Mann/Frau) schaut am meisten Anime an? -> Piechart
-
-
-# Average Rating Typen -> Music, Film, TV -> Balkendiagramm --> Stefanie
-
-# Wie lange braucht der Konsument um Anime ID 3244.. fertig anzuschauen -> my_start_date - my_finish_date -> ??
-
-
-# Anime XYZ wird von welcher Alterklasse geguckt --> Sugi
-
-# linreg member, popularity, rank
-
-############ ?? ################33
-#animeList$genre
-
-#animeList$genre[1]
-
-#x <- strsplit(animeList$genre[1],split = ",")
-
-#trimws(x)
-
-#x <- unlist(lapply(x, trimws))
-
-#str(x)
-
-#x <- c(1,2,1,1,1,1,2,9,19)
-#factor(x)
-##############################
+```{r echo=FALSE}
 
 db <- animeUserList # unser big data
 anime <- animeList
@@ -468,7 +391,7 @@ scoreUnknown <- subset(cleanedAnime$score, cleanedAnime$type == "Unknown")
 
 
 # Averages berechnen
-avgScore <- c(mean(scoreMovie), mean(scoreMusic), mean(scoreONA), mean(scoreOVA), mean(scoreSpecial), mean(scoreTV), mean(scoreUnknown))
+avgScore <- c(mean(scoreMovie), mean(scoreMusic), mean(scoreONA), mean(scoreOVA), mean(scoreSpecial), mean(scoreTV)) 
 
 
 
@@ -482,6 +405,12 @@ ggplot(df, aes(x = types, y = avgScore)) +
   geom_bar(stat = "identity", fill = "blue")
 
 
+```
+
+
+## Plot 4
+
+```{r echo=FALSE}
 
 
 #########################
@@ -491,7 +420,7 @@ ggplot(df, aes(x = types, y = avgScore)) +
 
 
 # Daten anschauen
-unique(user$gender)
+
 user$user_days_spent_watching
 
 user <- as.data.frame.ffdf(user)
@@ -505,7 +434,7 @@ genderData <- user %>%
 
 
 
-str.ff(unique(db$username))
+#str.ff(unique(db$username))
 
 
 # nach Frauen und Männern auftrennen
@@ -530,4 +459,50 @@ pie(avgDaysSpentWatching, labels = dfGender$gender, main = "Schauen Männer oder
 
 
 
+```
+
+
+## Plot 5
+
+```{r echo=FALSE}
+
 pie3D(avgDaysSpentWatching, labels = dfGender$gender, main = "Schauen Männer oder Frauen mehr Anime?")
+```
+
+
+
+## Probleme
+- RAM / Speicher > Tempfolder wird nicht gewechselt
+- 5000 Zeilen laden
+- ffdf.data.frame
+- data.frame.ffdf
+- Rtools -> ZIP Probleme
+- Wenig Speicher auf der Festplatte
+
+## Probleme
+- Kaeggle Notepad: 12 GB RAM, 4 GB Disk
+- Colab Notepad: 12 GB RAM, 120 GB Disk
+- R-Studio Cloud: 1 GB RAM, 1 CPU
+
+
+## gc()
+
+
+
+
+
+
+
+
+## Slide with R Output
+
+```{r cars, echo = TRUE}
+summary(cars)
+```
+
+## Slide with Plot
+
+```{r pressure}
+plot(pressure)
+```
+
